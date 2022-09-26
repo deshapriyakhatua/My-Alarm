@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
 //
 //        button.setOnClickListener(view -> {
 //            final Calendar c = Calendar.getInstance();
-//
-//            // on below line we are getting our hour, minute.
 
 
 
