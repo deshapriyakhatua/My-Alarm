@@ -63,8 +63,7 @@ public class MainActivity extends AppCompatActivity {
 //            final Calendar c = Calendar.getInstance();
 //
 //            // on below line we are getting our hour, minute.
-//            int hour = c.get(Calendar.HOUR_OF_DAY);
-//            int minute = c.get(Calendar.MINUTE);
+
 
 
 
