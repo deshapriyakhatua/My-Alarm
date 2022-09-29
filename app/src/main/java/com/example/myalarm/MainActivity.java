@@ -68,9 +68,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //            // on below line we are initializing our Time Picker Dialog
 //            TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,
-//                    (view1, hourOfDay, minute1) -> {
-//                        // on below line we are setting selected time
-//                        // in our text view.
+
 
 
 
