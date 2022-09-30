@@ -71,8 +71,7 @@ public class MainActivity extends AppCompatActivity {
 //                    (view1, hourOfDay, minute1) -> {
 //                        // on below line we are setting selected time
 //                        // in our text view.
-//                        textView.setText(hourOfDay + ":" + minute1);
-//                    }, hour, minute, false);
+
 
 
 
