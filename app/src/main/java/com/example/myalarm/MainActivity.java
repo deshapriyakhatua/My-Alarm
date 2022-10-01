@@ -73,9 +73,7 @@ public class MainActivity extends AppCompatActivity {
 //                        // in our text view.
 //                        textView.setText(hourOfDay + ":" + minute1);
 //                    }, hour, minute, false);
-//            // at last we are calling show to
-//            // display our time picker dialog.
-//            timePickerDialog.show();
+
 
 
     }
