@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,17 +23,21 @@ public class MainActivity extends AppCompatActivity {
         minute = findViewById(R.id.editTextMinute);
 
         hour.addTextChangedListener(new TextWatcher() {
+            String beforeChange;
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                beforeChange = charSequence.toString();
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(i2 > i1){
-                    int hours = Integer.valueOf(charSequence.toString());
+                    int hours = Integer.parseInt(charSequence.toString());
 
-                    if(hours>23){ hour.setText("23"); }
+                    if(hours>23 || charSequence.length()>2){
+                        hour.setText(beforeChange);
+                        hour.setSelection(beforeChange.length()-1);
+                    }
                 }
 
             }
@@ -44,20 +49,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
         minute.addTextChangedListener(new TextWatcher() {
+            String beforeChange;
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                beforeChange = charSequence.toString();
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 if(i2 > i1){
-                    int minutes = Integer.valueOf(charSequence.toString());
+                    int minutes = Integer.parseInt(charSequence.toString());
 
-                    if(minutes>59){ minute.setText("59"); }
+                    if(minutes>59 || charSequence.length()>2){
+                        minute.setText(beforeChange);
+                        minute.setSelection(beforeChange.length()-1);
+                    }
                 }
-
             }
 
             @Override
