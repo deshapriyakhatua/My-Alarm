@@ -6,9 +6,6 @@ import androidx.core.view.WindowCompat;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,6 +15,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // hiding action bar
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         // hiding status bar
-        WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
+        //WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
 
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -42,34 +40,27 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        button = findViewById(R.id.button);
-        textView = findViewById(R.id.textView);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Calendar c = Calendar.getInstance();
-
-                // on below line we are getting our hour, minute.
-                int hour = c.get(Calendar.HOUR_OF_DAY);
-                int minute = c.get(Calendar.MINUTE);
-
-                // on below line we are initializing our Time Picker Dialog
-                TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minute) {
-                                // on below line we are setting selected time
-                                // in our text view.
-                                textView.setText(hourOfDay + ":" + minute);
-                            }
-                        }, hour, minute, false);
-                // at last we are calling show to
-                // display our time picker dialog.
-                timePickerDialog.show();
-            }
-        });
+//        button = findViewById(R.id.button);
+//        textView = findViewById(R.id.textView);
+//
+//        button.setOnClickListener(view -> {
+//            final Calendar c = Calendar.getInstance();
+//
+//            // on below line we are getting our hour, minute.
+//            int hour = c.get(Calendar.HOUR_OF_DAY);
+//            int minute = c.get(Calendar.MINUTE);
+//
+//            // on below line we are initializing our Time Picker Dialog
+//            TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,
+//                    (view1, hourOfDay, minute1) -> {
+//                        // on below line we are setting selected time
+//                        // in our text view.
+//                        textView.setText(hourOfDay + ":" + minute1);
+//                    }, hour, minute, false);
+//            // at last we are calling show to
+//            // display our time picker dialog.
+//            timePickerDialog.show();
+//        });
 
     }
 }
