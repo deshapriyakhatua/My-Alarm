@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 
 import android.app.TimePickerDialog;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,9 +16,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -25,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
 
     FloatingActionButton floatingActionButton;
     LinearLayout linearLayout;
+    DatabaseHelper databaseHelper;
+    ArrayList<String> titles;
+    ArrayList<Integer> hours,minutes;
+    ArrayList<Boolean> activeStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,21 +50,52 @@ public class MainActivity extends AppCompatActivity {
         window.setStatusBarColor(Color.BLACK);
 
 
+        titles = new ArrayList<>();
+        hours = new ArrayList<>();
+        minutes = new ArrayList<>();
+        activeStatus = new ArrayList<>();
+
+        databaseHelper = new DatabaseHelper(getApplicationContext());
+
+        linearLayout = findViewById(R.id.linearLayoutContainer);
         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                linearLayout = findViewById(R.id.linearLayoutContainer);
+
+
+                databaseHelper.addData("alarm",12,30,1);
+                //onCreate(savedInstanceState);
+            }
+        });
+        displayData();
+
+    }
+
+    void displayData(){
+
+        Cursor cursor = databaseHelper.readAllData();
+
+        if(cursor.getCount() == 0){
+            Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
+        }else{
+            while (cursor.moveToNext()){
+                titles.add(cursor.getString(0));
+                hours.add(cursor.getInt(1));
+                minutes.add(cursor.getInt(2));
+                activeStatus.add(cursor.getInt(3)==1 ?true :false);
+
 
                 LayoutInflater layoutInflater = getLayoutInflater();
                 View view1 = layoutInflater.inflate(R.layout.card,null);
-
                 linearLayout.addView(view1);
-
             }
-        });
+        }
+    }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
 }

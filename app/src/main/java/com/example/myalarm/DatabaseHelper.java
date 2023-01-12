@@ -3,6 +3,7 @@ package com.example.myalarm;
 import android.app.DownloadManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -36,7 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_TITLE + " TEXT, " +
                 COLUMN_HOUR + " INTEGER, " +
                 COLUMN_MINUTE + " INTEGER, " +
-                COLUMN_ACTIVE + " BOOLEAN);";
+                COLUMN_ACTIVE + " INTEGER);";
 
         db.execSQL(query);
 
@@ -49,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addData(String title, int hour, int minute, boolean active){
+    void addData(String title, int hour, int minute, int active){
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -67,5 +68,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "Uploaded successfully", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    Cursor readAllData(){
+        String query = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = null;
+
+        if(db != null){
+            cursor = db.rawQuery(query,null);
+        }
+
+        return cursor;
     }
 }
