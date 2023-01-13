@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
                 TextView time = view1.findViewById(R.id.textViewTime);
                 Switch toggle = view1.findViewById(R.id.switch1);
+                ImageView deleteView = view1.findViewById(R.id.imageViewDelete);
 
                 time.setText(cursor.getInt(2) +" : "+cursor.getInt(3));
                 toggle.setChecked(cursor.getInt(4)==1 ?true :false);
@@ -99,6 +101,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                         databaseHelper.updateData(rowId,title,hour,minute,isChecked?1:0);
+                        displayData();
+                    }
+                });
+
+                deleteView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        databaseHelper.deleteData(rowId);
                         displayData();
                     }
                 });
