@@ -14,9 +14,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -56,38 +58,48 @@ public class MainActivity extends AppCompatActivity {
         activeStatus = new ArrayList<>();
 
         databaseHelper = new DatabaseHelper(getApplicationContext());
-
         linearLayout = findViewById(R.id.linearLayoutContainer);
         floatingActionButton = findViewById(R.id.floatingActionButton);
+
+        displayData();
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
                 databaseHelper.addData("alarm",12,30,1);
-                //onCreate(savedInstanceState);
+                displayData();
             }
         });
-        displayData();
+
 
     }
 
     void displayData(){
 
+        linearLayout.removeAllViews();
         Cursor cursor = databaseHelper.readAllData();
 
         if(cursor.getCount() == 0){
             Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
         }else{
             while (cursor.moveToNext()){
-                titles.add(cursor.getString(0));
-                hours.add(cursor.getInt(1));
-                minutes.add(cursor.getInt(2));
-                activeStatus.add(cursor.getInt(3)==1 ?true :false);
+                titles.add(cursor.getString(1));
+                hours.add(cursor.getInt(2));
+                minutes.add(cursor.getInt(3));
+                activeStatus.add(cursor.getInt(4)==1 ?true :false);
 
 
                 LayoutInflater layoutInflater = getLayoutInflater();
                 View view1 = layoutInflater.inflate(R.layout.card,null);
+
+                TextView time = view1.findViewById(R.id.textViewTime);
+                Switch toggle = view1.findViewById(R.id.switch1);
+
+                time.setText(cursor.getInt(2) +" : "+cursor.getInt(3));
+                toggle.setChecked(cursor.getInt(4)==1 ?true :false);
+
+
                 linearLayout.addView(view1);
             }
         }
@@ -99,3 +111,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
+
+
+
+
+
+
+
+
