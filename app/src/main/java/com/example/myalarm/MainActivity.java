@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -31,9 +32,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     LinearLayout linearLayout;
     DatabaseHelper databaseHelper;
-    ArrayList<String> titles;
-    ArrayList<Integer> hours,minutes;
-    ArrayList<Boolean> activeStatus;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +51,6 @@ public class MainActivity extends AppCompatActivity {
         window.setStatusBarColor(Color.BLACK);
 
 
-        titles = new ArrayList<>();
-        hours = new ArrayList<>();
-        minutes = new ArrayList<>();
-        activeStatus = new ArrayList<>();
 
         databaseHelper = new DatabaseHelper(getApplicationContext());
         linearLayout = findViewById(R.id.linearLayoutContainer);
@@ -84,10 +79,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
         }else{
             while (cursor.moveToNext()){
-                titles.add(cursor.getString(1));
-                hours.add(cursor.getInt(2));
-                minutes.add(cursor.getInt(3));
-                activeStatus.add(cursor.getInt(4)==1 ?true :false);
+                String rowId = cursor.getString(0);
+                String title = cursor.getString(1);
+                int hour = cursor.getInt(2);
+                int minute = cursor.getInt(3);
+                int activeStatus = cursor.getInt(4);
 
 
                 LayoutInflater layoutInflater = getLayoutInflater();
@@ -98,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
 
                 time.setText(cursor.getInt(2) +" : "+cursor.getInt(3));
                 toggle.setChecked(cursor.getInt(4)==1 ?true :false);
+
+                toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                        databaseHelper.updateData(rowId,title,hour,minute,isChecked?1:0);
+                        displayData();
+                    }
+                });
 
 
                 linearLayout.addView(view1);
