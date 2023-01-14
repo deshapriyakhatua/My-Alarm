@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 ImageView deleteView = view1.findViewById(R.id.imageViewDelete);
 
                 // populate data to each view
-                time.setText(cursor.getInt(2) +" : "+cursor.getInt(3));
+                time.setText(((cursor.getInt(2)<10)?("0"+cursor.getInt(2)) :cursor.getInt(2)) +" : "+ ((cursor.getInt(3)<10)?("0"+cursor.getInt(3)) :cursor.getInt(3)));
                 toggle.setChecked(cursor.getInt(4)==1 ?true :false);
 
                 // adding event listener to toggle switch
