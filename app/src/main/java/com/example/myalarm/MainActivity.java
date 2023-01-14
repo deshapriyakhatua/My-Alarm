@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         // hiding status bar
         //WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
 
+        // setting color to status bar
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -57,13 +58,16 @@ public class MainActivity extends AppCompatActivity {
         linearLayout = findViewById(R.id.linearLayoutContainer);
         floatingActionButton = findViewById(R.id.floatingActionButton);
 
+        // invoking for creating card view
         displayData();
+
+        // adding event listener to floating action button
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                databaseHelper.addData("alarm",12,30,1);
+                // adding new data to database
+                databaseHelper.addData("alarm",12,30,0);
+                // populate data from database
                 displayData();
             }
         });
@@ -71,32 +75,43 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // populating data
     void displayData(){
 
+        // clearing all card view
         linearLayout.removeAllViews();
+
+        // reading all data from database
         Cursor cursor = databaseHelper.readAllData();
 
         if(cursor.getCount() == 0){
             Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
         }else{
+
+            // iterate over all the data
             while (cursor.moveToNext()){
+
+                // initializing data from database cursor
                 String rowId = cursor.getString(0);
                 String title = cursor.getString(1);
                 int hour = cursor.getInt(2);
                 int minute = cursor.getInt(3);
                 int activeStatus = cursor.getInt(4);
 
-
+                // inflate new card view
                 LayoutInflater layoutInflater = getLayoutInflater();
                 View view1 = layoutInflater.inflate(R.layout.card,null);
 
+                // initializing some views within card view
                 TextView time = view1.findViewById(R.id.textViewTime);
                 Switch toggle = view1.findViewById(R.id.switch1);
                 ImageView deleteView = view1.findViewById(R.id.imageViewDelete);
 
+                // populate data to each view
                 time.setText(cursor.getInt(2) +" : "+cursor.getInt(3));
                 toggle.setChecked(cursor.getInt(4)==1 ?true :false);
 
+                // adding event listener to toggle switch
                 toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -105,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                // adding event listener to delete icon
                 deleteView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -113,10 +129,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                // initializing some data for TimePickerDialog
                 Calendar calendar = Calendar.getInstance();
                 int hours = calendar.get(Calendar.HOUR_OF_DAY);
                 int minutes = calendar.get(Calendar.MINUTE);
 
+                // creating new timePickerDialog
                 TimePickerDialog timePicker = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour1, int minute1) {
@@ -125,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 },hours,minutes,false);
 
+                // adding event listener to time TextView
                 time.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -132,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                // adding card view to parent linearLayout
                 linearLayout.addView(view1);
             }
         }
