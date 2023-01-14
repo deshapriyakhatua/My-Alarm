@@ -65,7 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(result == -1){
             Toast.makeText(context, "Failed to upload", Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(context, "Uploaded successfully", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Uploaded successfully", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -98,7 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(result == -1){
             Toast.makeText(context, "Failed to update", Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(context, "Updated successfully", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Updated successfully", Toast.LENGTH_SHORT).show();
         }
 
     }

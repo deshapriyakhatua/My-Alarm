@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.AlarmClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -115,6 +117,23 @@ public class MainActivity extends AppCompatActivity {
                 toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                        // setting or cancelling alarm
+                        if(isChecked){
+                            Intent alarmIntent = new Intent(AlarmClock.ACTION_SET_ALARM);
+                            alarmIntent.putExtra(AlarmClock.EXTRA_HOUR,hour);
+                            alarmIntent.putExtra(AlarmClock.EXTRA_MINUTES,minute);
+                            alarmIntent.putExtra(AlarmClock.EXTRA_MESSAGE,"alarm from MyAlarm app");
+                            alarmIntent.putExtra(AlarmClock.EXTRA_SKIP_UI,false);
+
+                            if(alarmIntent.resolveActivity(getPackageManager()) != null){
+                                startActivity(alarmIntent);
+                            }else{//startActivity(alarmIntent);
+                                Toast.makeText(getApplicationContext(), "no alarm app found !", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }else{
+
+                        }
                         databaseHelper.updateData(rowId,title,hour,minute,isChecked?1:0);
                         displayData();
                     }
