@@ -113,6 +113,24 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                Calendar calendar = Calendar.getInstance();
+                int hours = calendar.get(Calendar.HOUR_OF_DAY);
+                int minutes = calendar.get(Calendar.MINUTE);
+
+                TimePickerDialog timePicker = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hour1, int minute1) {
+                        databaseHelper.updateData(rowId,title,hour1,minute1,(toggle.isChecked())?1:0);
+                        displayData();
+                    }
+                },hours,minutes,false);
+
+                time.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        timePicker.show();
+                    }
+                });
 
                 linearLayout.addView(view1);
             }
