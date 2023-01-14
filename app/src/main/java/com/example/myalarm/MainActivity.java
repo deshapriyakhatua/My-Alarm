@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 ImageView deleteView = view1.findViewById(R.id.imageViewDelete);
 
                 // populate data to each view
-                time.setText(((cursor.getInt(2)<10)?("0"+cursor.getInt(2)) :cursor.getInt(2)) +" : "+ ((cursor.getInt(3)<10)?("0"+cursor.getInt(3)) :cursor.getInt(3)));
+                time.setText(String.format("%02d",cursor.getInt(2)) +" : "+ String.format("%02d",cursor.getInt(3)));
                 toggle.setChecked(cursor.getInt(4)==1 ?true :false);
 
                 // adding event listener to toggle switch
@@ -131,8 +131,8 @@ public class MainActivity extends AppCompatActivity {
 
                 // initializing some data for TimePickerDialog
                 Calendar calendar = Calendar.getInstance();
-                int hours = calendar.get(Calendar.HOUR_OF_DAY);
-                int minutes = calendar.get(Calendar.MINUTE);
+                int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+                int currentMinutes = calendar.get(Calendar.MINUTE);
 
                 // creating new timePickerDialog
                 TimePickerDialog timePicker = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                         databaseHelper.updateData(rowId,title,hour1,minute1,(toggle.isChecked())?1:0);
                         displayData();
                     }
-                },hours,minutes,false);
+                },currentHour,currentMinutes,false);
 
                 // adding event listener to time TextView
                 time.setOnClickListener(new View.OnClickListener() {
