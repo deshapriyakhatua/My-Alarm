@@ -119,21 +119,24 @@ public class MainActivity extends AppCompatActivity {
                     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                         // setting or cancelling alarm
                         if(isChecked){
+
                             Intent alarmIntent = new Intent(AlarmClock.ACTION_SET_ALARM);
                             alarmIntent.putExtra(AlarmClock.EXTRA_HOUR,hour);
                             alarmIntent.putExtra(AlarmClock.EXTRA_MINUTES,minute);
                             alarmIntent.putExtra(AlarmClock.EXTRA_MESSAGE,"alarm from MyAlarm app");
-                            alarmIntent.putExtra(AlarmClock.EXTRA_SKIP_UI,false);
+                            alarmIntent.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
 
-                            if(alarmIntent.resolveActivity(getPackageManager()) != null){
+                            try{
                                 startActivity(alarmIntent);
-                            }else{//startActivity(alarmIntent);
+                            }catch(Exception e){
                                 Toast.makeText(getApplicationContext(), "no alarm app found !", Toast.LENGTH_SHORT).show();
                             }
 
                         }else{
 
                         }
+
+                        // updating to database
                         databaseHelper.updateData(rowId,title,hour,minute,isChecked?1:0);
                         displayData();
                     }
