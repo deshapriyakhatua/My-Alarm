@@ -135,8 +135,7 @@ public class MainActivity extends AppCompatActivity {
                         }else{
 
                             Intent alarmIntent = new Intent(AlarmClock.ACTION_DISMISS_ALARM);
-                            alarmIntent.putExtra(AlarmClock.EXTRA_MESSAGE,"alarm from MyAlarm app");
-                            alarmIntent.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
+                            alarmIntent.putExtra(AlarmClock.ALARM_SEARCH_MODE_LABEL,"alarm from MyAlarm app");
 
                             try{
                                 startActivity(alarmIntent);
