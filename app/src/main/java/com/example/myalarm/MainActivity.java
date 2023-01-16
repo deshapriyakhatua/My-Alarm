@@ -128,6 +128,11 @@ public class MainActivity extends AppCompatActivity {
 
                             try{
                                 startActivity(alarmIntent);
+
+                                // updating to database
+                                databaseHelper.updateData(rowId,title,hour,minute,isChecked?1:0);
+                                displayData();
+
                             }catch(Exception e){
                                 Toast.makeText(getApplicationContext(), "no alarm app found !", Toast.LENGTH_SHORT).show();
                             }
@@ -135,19 +140,27 @@ public class MainActivity extends AppCompatActivity {
                         }else{
 
                             Intent alarmIntent = new Intent(AlarmClock.ACTION_DISMISS_ALARM);
-                            alarmIntent.putExtra(AlarmClock.ALARM_SEARCH_MODE_LABEL,"alarm from MyAlarm app");
+                            alarmIntent.putExtra(AlarmClock.EXTRA_ALARM_SEARCH_MODE,AlarmClock.ALARM_SEARCH_MODE_TIME);
+                            alarmIntent.putExtra(AlarmClock.EXTRA_HOUR,hour);
+                            alarmIntent.putExtra(AlarmClock.EXTRA_MINUTES,minute);
+                            //alarmIntent.putExtra(AlarmClock.EXTRA_ALARM_SEARCH_MODE,AlarmClock.ALARM_SEARCH_MODE_LABEL);
+                            //alarmIntent.putExtra(AlarmClock.EXTRA_MESSAGE,"alarm from MyAlarm app");
+                            //alarmIntent.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
 
                             try{
                                 startActivity(alarmIntent);
+
+                                // updating to database
+                                databaseHelper.updateData(rowId,title,hour,minute,isChecked?1:0);
+                                displayData();
+
                             }catch(Exception e){
                                 Toast.makeText(getApplicationContext(), "no alarm app found !", Toast.LENGTH_SHORT).show();
                             }
 
                         }
 
-                        // updating to database
-                        databaseHelper.updateData(rowId,title,hour,minute,isChecked?1:0);
-                        displayData();
+
                     }
                 });
 
